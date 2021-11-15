@@ -4,10 +4,7 @@ import { Link } from 'react-router-dom';
 import { AuthContext } from '../../context/auth-conext';
 
 const Login = () => {
-  const { login } = useContext(AuthContext);
-
-  //state
-  const [error, setError] = useState('');
+  const { login, error } = useContext(AuthContext);
 
   const emailRef = useRef();
   const passwordRef = useRef();
@@ -18,10 +15,9 @@ const Login = () => {
     const enteredPassword = passwordRef.current.value;
 
     try {
-      setError('');
       await login(enteredEmail, enteredPassword);
     } catch (error) {
-      setError('Failed to login!');
+      console.log(error);
     }
   };
 

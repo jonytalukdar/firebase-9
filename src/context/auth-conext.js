@@ -45,11 +45,11 @@ const AuthProvider = ({ children }) => {
       .then((userCredential) => {
         const { accessToken } = userCredential.user;
         setToken(accessToken);
+        navigate('/');
       })
       .catch((error) => {
         const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log(errorCode, errorMessage);
+        setError(errorCode);
       });
   };
 
