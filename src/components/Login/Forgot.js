@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { AuthContext } from '../../context/auth-conext';
 
 const Login = () => {
-  const { login } = useContext(AuthContext);
+  const { resetPassword } = useContext(AuthContext);
 
   //state
   const [error, setError] = useState('');
@@ -19,9 +19,9 @@ const Login = () => {
 
     try {
       setError('');
-      await login(enteredEmail, enteredPassword);
+      await resetPassword(enteredEmail, enteredPassword);
     } catch (error) {
-      setError('Failed to login!');
+      setError('Failed to Reset!');
     }
   };
 
@@ -29,28 +29,21 @@ const Login = () => {
     <>
       <Card>
         <Card.Body>
-          <h2 className="text-center">Log In</h2>
+          <h2 className="text-center">Reset Password</h2>
           {error && <Alert variant="danger">{error}</Alert>}
           <Form onSubmit={submitHandler}>
             <Form.Group id="email">
               <Form.Label>Email</Form.Label>
-              <Form.Control type="email" ref={emailRef} />
-            </Form.Group>
-            <Form.Group id="password" className="mb-3">
-              <Form.Label>Password</Form.Label>
-              <Form.Control type="password" ref={passwordRef} />
+              <Form.Control className="mb-2" type="email" ref={emailRef} />
             </Form.Group>
             <Button className="w-100" type="submit">
-              Log In
+              Reset Password
             </Button>
           </Form>
         </Card.Body>
-        <div className="w-100 text-center mt-1">
-          <Link to="/forgot">Forgot Password?</Link>
-        </div>
       </Card>
       <div className="w-100 text-center mt-3">
-        Need an account? <Link to="/signup">Sign Up</Link>
+        <Link to="/login">Login</Link>
       </div>
     </>
   );

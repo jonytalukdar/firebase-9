@@ -8,25 +8,28 @@ import { app } from '../firebase.config';
 const auth = getAuth(app);
 
 export const AuthContext = createContext({
-  user: null,
+  token: '',
+  isLogin: false,
   signUp: (email, password) => {},
   login: (email, password) => {},
 });
 
 const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState();
+  const [token, setToken] = useState('');
+
+  const isLogin = !!token;
 
   //singup handler
   const signUpHandler = (email, password) => {
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
-        const user = userCredential.user;
-        console.log(user);
+        const { accessToken } = userCredential.user;
+        setToken(accessToken);
       })
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
-        console.log(errorCode);
+        console.log(errorCode, errorMessage);
       });
   };
 
@@ -34,19 +37,20 @@ const AuthProvider = ({ children }) => {
   const loginHandler = (email, password) => {
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
-        const user = userCredential.user;
-        console.log(user.accessToken);
+        const { accessToken } = userCredential.user;
+        setToken(accessToken);
       })
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
-        console.log(errorMessage);
+        console.log(errorCode, errorMessage);
       });
   };
 
   //context value
   const contextValue = {
-    user,
+    token,
+    isLogin,
     signUp: signUpHandler,
     login: loginHandler,
   };
