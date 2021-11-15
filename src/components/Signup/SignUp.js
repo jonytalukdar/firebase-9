@@ -5,10 +5,10 @@ import { Link } from 'react-router-dom';
 import { AuthContext } from '../../context/auth-conext';
 
 const SignUp = () => {
-  const { signUp } = useContext(AuthContext);
+  const { signUp, error } = useContext(AuthContext);
 
   //state
-  const [error, setError] = useState('');
+  const [errorMessage, setError] = useState('');
 
   const emailRef = useRef();
   const passwordRef = useRef();
@@ -23,6 +23,7 @@ const SignUp = () => {
     if (enteredPassword !== enteredConfirmPassword) {
       return setError('Password does not match!');
     }
+
     try {
       setError('');
       await signUp(enteredEmail, enteredPassword);
@@ -36,6 +37,7 @@ const SignUp = () => {
       <Card>
         <Card.Body>
           <h2 className="text-center">Sign Up</h2>
+          {errorMessage && <Alert variant="danger">{errorMessage}</Alert>}
           {error && <Alert variant="danger">{error}</Alert>}
           <Form onSubmit={submitHandler}>
             <Form.Group id="email">

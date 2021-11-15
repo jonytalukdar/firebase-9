@@ -5,6 +5,7 @@ import {
   signInWithEmailAndPassword,
 } from 'firebase/auth';
 import { app } from '../firebase.config';
+import { useNavigate } from 'react-router-dom';
 const auth = getAuth(app);
 
 export const AuthContext = createContext({
@@ -12,10 +13,14 @@ export const AuthContext = createContext({
   isLogin: false,
   signUp: (email, password) => {},
   login: (email, password) => {},
+  error: '',
 });
 
 const AuthProvider = ({ children }) => {
+  const navigate = useNavigate();
+
   const [token, setToken] = useState('');
+  const [error, setError] = useState('');
 
   const isLogin = !!token;
 
@@ -25,11 +30,12 @@ const AuthProvider = ({ children }) => {
       .then((userCredential) => {
         const { accessToken } = userCredential.user;
         setToken(accessToken);
+        setError('');
+        navigate('/');
       })
       .catch((error) => {
         const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log(errorCode, errorMessage);
+        setError(errorCode);
       });
   };
 
@@ -53,6 +59,7 @@ const AuthProvider = ({ children }) => {
     isLogin,
     signUp: signUpHandler,
     login: loginHandler,
+    error,
   };
   return (
     <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>
