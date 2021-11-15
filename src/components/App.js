@@ -1,5 +1,8 @@
 import { Container } from 'react-bootstrap';
 import SignUp from './Signup/SignUp';
+import { Routes, Route } from 'react-router-dom';
+import Dashboard from './Dashboard/Dashboard';
+import Login from './Login/Login';
 
 function App() {
   return (
@@ -8,7 +11,11 @@ function App() {
       style={{ minHeight: '100vh' }}
     >
       <div className="w-100" style={{ maxWidth: '400px' }}>
-        <SignUp />;
+        <Routes>
+          <Route path="/" element={<Dashboard />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/login" element={<Login />} />
+        </Routes>
       </div>
     </Container>
   );
