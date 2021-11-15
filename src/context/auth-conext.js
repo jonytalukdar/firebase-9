@@ -19,7 +19,8 @@ export const AuthContext = createContext({
 const AuthProvider = ({ children }) => {
   const navigate = useNavigate();
 
-  const [token, setToken] = useState('');
+  const initialToken = localStorage.getItem('accessToken');
+  const [token, setToken] = useState(initialToken);
   const [error, setError] = useState('');
 
   const isLogin = !!token;
@@ -32,6 +33,7 @@ const AuthProvider = ({ children }) => {
         setToken(accessToken);
         setError('');
         navigate('/');
+        localStorage.setItem('accessToken', accessToken);
       })
       .catch((error) => {
         const errorCode = error.code;
@@ -46,6 +48,7 @@ const AuthProvider = ({ children }) => {
         const { accessToken } = userCredential.user;
         setToken(accessToken);
         navigate('/');
+        localStorage.setItem('accessToken', accessToken);
       })
       .catch((error) => {
         const errorCode = error.code;
