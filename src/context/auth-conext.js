@@ -56,12 +56,19 @@ const AuthProvider = ({ children }) => {
       });
   };
 
+  //logout handler
+  const logoutHandler = () => {
+    setToken('');
+    localStorage.removeItem('accessToken');
+  };
+
   //context value
   const contextValue = {
     token,
     isLogin,
     signUp: signUpHandler,
     login: loginHandler,
+    logout: logoutHandler,
     error,
   };
   return (
