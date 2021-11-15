@@ -1,6 +1,7 @@
 import React, { useContext, useRef, useState } from 'react';
 
 import { Card, Button, Form, Alert } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import { AuthContext } from '../../context/auth-conext';
 
 const SignUp = () => {
@@ -8,7 +9,6 @@ const SignUp = () => {
 
   //state
   const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false);
 
   const emailRef = useRef();
   const passwordRef = useRef();
@@ -24,13 +24,11 @@ const SignUp = () => {
       return setError('Password does not match!');
     }
     try {
-      setLoading(true);
       setError('');
       await signUp(enteredEmail, enteredPassword);
     } catch (error) {
       setError('Failed to create an account!');
     }
-    setLoading(false);
   };
 
   return (
@@ -56,14 +54,14 @@ const SignUp = () => {
                 ref={passwordConfirmRef}
               />
             </Form.Group>
-            <Button disabled={loading} className="w-100" type="submit">
+            <Button className="w-100" type="submit">
               Sign Up
             </Button>
           </Form>
         </Card.Body>
       </Card>
       <div className="w-100 text-center mt-3">
-        Already have an account? Log In
+        Already have an account? <Link to="/login">Log In</Link>
       </div>
     </>
   );
