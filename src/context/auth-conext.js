@@ -4,6 +4,7 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   sendPasswordResetEmail,
+  updateEmail,
 } from 'firebase/auth';
 import { app } from '../firebase.config';
 import { useNavigate } from 'react-router-dom';
@@ -60,6 +61,19 @@ const AuthProvider = ({ children }) => {
       });
   };
 
+  //update email
+  const updateEmailAddress = (email) => {
+    updateEmail(auth.currentUser, email)
+      .then(() => {
+        setError('');
+        navigate('/', { replace: true });
+      })
+      .catch((error) => {
+        console.log(error);
+        setError(error.errorCode);
+      });
+  };
+
   //logout
   const logout = () => {
     auth.signOut();
@@ -84,6 +98,7 @@ const AuthProvider = ({ children }) => {
     logout,
     isLogin,
     forgotPassword,
+    updateEmailAddress,
   };
 
   return (

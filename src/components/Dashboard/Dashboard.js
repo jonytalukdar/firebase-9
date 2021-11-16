@@ -12,7 +12,7 @@ const Dashboard = () => {
           <h2 className="text-center mb-3">Profile</h2>
           <h1 className="text-center">Welcome to dashboard</h1>
           <div className="text-center w-100 mt-3">
-            <Link to="/update">profile update</Link>
+            <Link to="/update-profile">profile update</Link>
           </div>
         </Card.Body>
       </Card>

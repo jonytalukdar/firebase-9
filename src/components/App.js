@@ -6,6 +6,7 @@ import Dashboard from './Dashboard/Dashboard';
 import Login from './Login/Login';
 import Forgot from './Login/Forgot';
 import { AuthContext } from '../context/auth-conext';
+import UpdateProfile from './Dashboard/UpdateProfile';
 
 function App() {
   const { isLogin } = useContext(AuthContext);
@@ -18,7 +19,12 @@ function App() {
       <div className="w-100" style={{ maxWidth: '400px' }}>
         <Routes>
           {!isLogin && <Route path="/" element={<Navigate to="/login" />} />}
+          {!isLogin && (
+            <Route path="/update-profile" element={<Navigate to="/login" />} />
+          )}
+
           <Route path="/" element={<Dashboard />} />
+          <Route path="/update-profile" element={<UpdateProfile />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/login" element={<Login />} />
           <Route path="/forgot" element={<Forgot />} />
