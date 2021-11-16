@@ -1,25 +1,13 @@
-import React, { useContext, useRef, useState } from 'react';
-import { Card, Button, Form, Alert } from 'react-bootstrap';
+import React, { useRef } from 'react';
+import { Card, Button, Form } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import { AuthContext } from '../../context/auth-conext';
 
-const Login = () => {
-  const { resetPassword, error } = useContext(AuthContext);
-
-  const [message, setMessage] = useState('');
-
+const Forgot = () => {
   const emailRef = useRef();
 
   const submitHandler = async (e) => {
     e.preventDefault();
     const enteredEmail = emailRef.current.value;
-
-    try {
-      await resetPassword(enteredEmail);
-      setMessage('Check your email inbox for further update!');
-    } catch (error) {
-      console.log(error);
-    }
   };
 
   return (
@@ -27,8 +15,6 @@ const Login = () => {
       <Card>
         <Card.Body>
           <h2 className="text-center">Reset Password</h2>
-          {error && <Alert variant="danger">{error}</Alert>}
-          {message && <Alert variant="success">{message}</Alert>}
           <Form onSubmit={submitHandler}>
             <Form.Group id="email">
               <Form.Label>Email</Form.Label>
@@ -47,4 +33,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Forgot;

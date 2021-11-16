@@ -1,15 +1,9 @@
-import React, { useContext, useRef, useState } from 'react';
+import React, { useRef } from 'react';
 
-import { Card, Button, Form, Alert } from 'react-bootstrap';
+import { Card, Button, Form } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import { AuthContext } from '../../context/auth-conext';
 
 const SignUp = () => {
-  const { signUp, error } = useContext(AuthContext);
-
-  //state
-  const [errorMessage, setError] = useState('');
-
   const emailRef = useRef();
   const passwordRef = useRef();
   const passwordConfirmRef = useRef();
@@ -19,17 +13,6 @@ const SignUp = () => {
     const enteredEmail = emailRef.current.value;
     const enteredPassword = passwordRef.current.value;
     const enteredConfirmPassword = passwordConfirmRef.current.value;
-
-    if (enteredPassword !== enteredConfirmPassword) {
-      return setError('Password does not match!');
-    }
-
-    try {
-      setError('');
-      await signUp(enteredEmail, enteredPassword);
-    } catch (error) {
-      setError('Failed to create an account!');
-    }
   };
 
   return (
@@ -37,8 +20,7 @@ const SignUp = () => {
       <Card>
         <Card.Body>
           <h2 className="text-center">Sign Up</h2>
-          {errorMessage && <Alert variant="danger">{errorMessage}</Alert>}
-          {error && <Alert variant="danger">{error}</Alert>}
+
           <Form onSubmit={submitHandler}>
             <Form.Group id="email">
               <Form.Label>Email</Form.Label>

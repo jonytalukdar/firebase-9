@@ -1,9 +1,7 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Card, Button } from 'react-bootstrap';
-import { AuthContext } from '../../context/auth-conext';
 
 const Dashboard = () => {
-  const { logout } = useContext(AuthContext);
   return (
     <>
       <Card>
@@ -13,9 +11,7 @@ const Dashboard = () => {
         </Card.Body>
       </Card>
       <div className="text-center w-100 mt-3">
-        <Button variant="link" onClick={logout}>
-          Log Out
-        </Button>
+        <Button variant="link">Log Out</Button>
       </div>
     </>
   );
