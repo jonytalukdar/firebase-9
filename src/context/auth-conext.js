@@ -5,11 +5,14 @@ import {
   signInWithEmailAndPassword,
 } from 'firebase/auth';
 import { app } from '../firebase.config';
+import { useNavigate } from 'react-router-dom';
 const auth = getAuth(app);
 
 export const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
+  const navigate = useNavigate();
+
   const [currentUser, setCurrentUser] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -22,6 +25,7 @@ const AuthProvider = ({ children }) => {
       .then((res) => {
         setCurrentUser(res.user);
         setError('');
+        navigate('/', { replace: true });
       })
       .catch((error) => {
         const errorCode = error.code;
@@ -35,6 +39,7 @@ const AuthProvider = ({ children }) => {
       .then((res) => {
         setCurrentUser(res.user);
         setError('');
+        navigate('/', { replace: true });
       })
       .catch((error) => {
         const errorCode = error.code;

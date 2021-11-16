@@ -8,8 +8,8 @@ import Forgot from './Login/Forgot';
 import { AuthContext } from '../context/auth-conext';
 
 function App() {
-  const { currentUser, isLogin } = useContext(AuthContext);
-  console.log(currentUser);
+  const { isLogin } = useContext(AuthContext);
+  console.log(isLogin);
 
   return (
     <Container
