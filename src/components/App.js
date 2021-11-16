@@ -9,7 +9,6 @@ import { AuthContext } from '../context/auth-conext';
 
 function App() {
   const { isLogin } = useContext(AuthContext);
-  console.log(isLogin);
 
   return (
     <Container
