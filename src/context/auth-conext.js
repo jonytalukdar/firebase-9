@@ -5,6 +5,7 @@ import {
   signInWithEmailAndPassword,
   sendPasswordResetEmail,
   updateEmail,
+  updatePassword,
 } from 'firebase/auth';
 import { app } from '../firebase.config';
 import { useNavigate } from 'react-router-dom';
@@ -23,15 +24,18 @@ const AuthProvider = ({ children }) => {
 
   //signup
   const signUp = (email, password) => {
+    setLoading(true);
     createUserWithEmailAndPassword(auth, email, password)
       .then((res) => {
         setCurrentUser(res.user);
         setError('');
         navigate('/', { replace: true });
+        setLoading(false);
       })
       .catch((error) => {
         const errorCode = error.code;
         setError(errorCode);
+        setLoading(false);
       });
   };
 
@@ -66,10 +70,20 @@ const AuthProvider = ({ children }) => {
     updateEmail(auth.currentUser, email)
       .then(() => {
         setError('');
-        navigate('/', { replace: true });
       })
       .catch((error) => {
         console.log(error);
+        setError(error.errorCode);
+      });
+  };
+
+  //update password
+  const updateUserPassword = (password) => {
+    updatePassword(auth.currentUser, password)
+      .then(() => {
+        setError('');
+      })
+      .catch((error) => {
         setError(error.errorCode);
       });
   };
@@ -93,12 +107,14 @@ const AuthProvider = ({ children }) => {
   const contextValue = {
     currentUser,
     error,
+    loading,
     isLogin,
     signUp,
     login,
     logout,
     forgotPassword,
     updateEmailAddress,
+    updateUserPassword,
   };
 
   return (

@@ -1,13 +1,16 @@
-import React, { useRef, useContext } from 'react';
+import React, { useRef, useContext, useState } from 'react';
 import { Card, Button, Form, Alert } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../../context/auth-conext';
 
 const UpdateProfile = () => {
-  const { updateEmailAddress, error, currentUser } = useContext(AuthContext);
+  const { updateEmailAddress, error, currentUser, updateUserPassword } =
+    useContext(AuthContext);
   const emailRef = useRef();
   const passwordRef = useRef();
   const passwordConfirmRef = useRef();
+
+  const [message, setMessage] = useState('');
 
   const submitHandler = async (e) => {
     e.preventDefault();
@@ -19,7 +22,23 @@ const UpdateProfile = () => {
       alert('Password does not match!');
     }
 
-    updateEmailAddress(enteredEmail);
+    const promises = [];
+
+    if (enteredEmail !== currentUser.email) {
+      promises.push(updateEmailAddress(enteredEmail));
+    }
+    if (enteredPassword) {
+      promises.push(updateUserPassword(enteredPassword));
+    }
+
+    Promise.all(promises)
+      .then(() => {})
+      .catch((error) => {
+        console.log(error);
+      })
+      .finally(() => {
+        setMessage('Profile Updated!');
+      });
   };
 
   return (
@@ -27,6 +46,7 @@ const UpdateProfile = () => {
       <Card>
         <Card.Body>
           <h2 className="text-center">Update Profile</h2>
+          {message && <Alert variant="success">{message}</Alert>}
           {error && <Alert variant="danger">{error}</Alert>}
           <Form onSubmit={submitHandler}>
             <Form.Group id="email">
@@ -56,7 +76,7 @@ const UpdateProfile = () => {
         </Card.Body>
       </Card>
       <div className="w-100 text-center mt-3">
-        <Link to="/">Cancel</Link>
+        <Link to="/login">Login</Link>
       </div>
     </>
   );

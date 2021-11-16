@@ -4,13 +4,16 @@ import { Link } from 'react-router-dom';
 import { AuthContext } from '../../context/auth-conext';
 
 const Dashboard = () => {
-  const { logout } = useContext(AuthContext);
+  const {
+    logout,
+    currentUser: { email },
+  } = useContext(AuthContext);
   return (
     <>
       <Card>
         <Card.Body>
           <h2 className="text-center mb-3">Profile</h2>
-          <h1 className="text-center">Welcome to dashboard</h1>
+          <h1 className="text-center">Welcome {email}</h1>
           <div className="text-center w-100 mt-3">
             <Link to="/update-profile">profile update</Link>
           </div>
