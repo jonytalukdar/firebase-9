@@ -1,10 +1,10 @@
 import React, { useRef, useContext } from 'react';
-import { Card, Button, Form } from 'react-bootstrap';
+import { Card, Button, Form, Alert } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../../context/auth-conext';
 
 const SignUp = () => {
-  const { signUp } = useContext(AuthContext);
+  const { signUp, error } = useContext(AuthContext);
   const emailRef = useRef();
   const passwordRef = useRef();
   const passwordConfirmRef = useRef();
@@ -27,6 +27,7 @@ const SignUp = () => {
       <Card>
         <Card.Body>
           <h2 className="text-center">Sign Up</h2>
+          {error && <Alert variant="danger">{error}</Alert>}
           <Form onSubmit={submitHandler}>
             <Form.Group id="email">
               <Form.Label>Email</Form.Label>
