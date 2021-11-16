@@ -4,24 +4,21 @@ import { Link } from 'react-router-dom';
 import { AuthContext } from '../../context/auth-conext';
 
 const Login = () => {
-  const { resetPassword } = useContext(AuthContext);
+  const { resetPassword, error } = useContext(AuthContext);
 
-  //state
-  const [error, setError] = useState('');
+  const [message, setMessage] = useState('');
 
   const emailRef = useRef();
-  const passwordRef = useRef();
 
   const submitHandler = async (e) => {
     e.preventDefault();
     const enteredEmail = emailRef.current.value;
-    const enteredPassword = passwordRef.current.value;
 
     try {
-      setError('');
-      await resetPassword(enteredEmail, enteredPassword);
+      await resetPassword(enteredEmail);
+      setMessage('Check your email inbox for further update!');
     } catch (error) {
-      setError('Failed to Reset!');
+      console.log(error);
     }
   };
 
@@ -31,6 +28,7 @@ const Login = () => {
         <Card.Body>
           <h2 className="text-center">Reset Password</h2>
           {error && <Alert variant="danger">{error}</Alert>}
+          {message && <Alert variant="success">{message}</Alert>}
           <Form onSubmit={submitHandler}>
             <Form.Group id="email">
               <Form.Label>Email</Form.Label>

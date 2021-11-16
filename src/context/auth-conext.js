@@ -3,6 +3,7 @@ import {
   getAuth,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  sendPasswordResetEmail,
 } from 'firebase/auth';
 import { app } from '../firebase.config';
 import { useNavigate } from 'react-router-dom';
@@ -13,6 +14,7 @@ export const AuthContext = createContext({
   isLogin: false,
   signUp: (email, password) => {},
   login: (email, password) => {},
+  resetPassword: (email) => {},
   error: '',
 });
 
@@ -62,6 +64,18 @@ const AuthProvider = ({ children }) => {
     localStorage.removeItem('accessToken');
   };
 
+  //password reset
+
+  const passwordResetHandler = (email) => {
+    sendPasswordResetEmail(auth, email)
+      .then(() => {
+        setError('');
+      })
+      .catch((error) => {
+        setError(error.errorCode);
+      });
+  };
+
   //context value
   const contextValue = {
     token,
@@ -69,6 +83,7 @@ const AuthProvider = ({ children }) => {
     signUp: signUpHandler,
     login: loginHandler,
     logout: logoutHandler,
+    resetPassword: passwordResetHandler,
     error,
   };
   return (
