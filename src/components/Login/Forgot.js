@@ -5,18 +5,18 @@ import { AuthContext } from '../../context/auth-conext';
 
 const Forgot = () => {
   const { forgotPassword, error } = useContext(AuthContext);
-  const [message, setMessage] = useState('');
+
   const emailRef = useRef();
+  const [message, setMessage] = useState(null);
 
   const submitHandler = async (e) => {
     e.preventDefault();
-    const enteredEmail = emailRef.current.value;
 
     try {
-      await forgotPassword(enteredEmail);
-      setMessage('Check inbox for further update!');
-    } catch (error) {
-      console.log(error);
+      setMessage('');
+      await forgotPassword(emailRef.current.value);
+      setMessage('Check your inbox to further update!');
+    } catch {
       setMessage('');
     }
   };
@@ -29,7 +29,9 @@ const Forgot = () => {
           {error ? (
             <Alert variant="danger">{error}</Alert>
           ) : (
-            <Alert variant="success">{message}</Alert>
+            <Alert show={message ? true : false} variant="success">
+              {message}
+            </Alert>
           )}
 
           <Form onSubmit={submitHandler}>

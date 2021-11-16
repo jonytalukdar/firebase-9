@@ -19,7 +19,7 @@ const SignUp = () => {
       alert('Password does not match!');
     }
 
-    signUp(enteredEmail, enteredPassword);
+    await signUp(enteredEmail, enteredPassword);
   };
 
   return (

@@ -52,7 +52,7 @@ const AuthProvider = ({ children }) => {
   //forgot password
   const forgotPassword = (email) => {
     sendPasswordResetEmail(auth, email)
-      .then(() => {
+      .then((res) => {
         setError('');
       })
       .catch((error) => {
@@ -92,11 +92,11 @@ const AuthProvider = ({ children }) => {
 
   const contextValue = {
     currentUser,
+    error,
+    isLogin,
     signUp,
     login,
-    error,
     logout,
-    isLogin,
     forgotPassword,
     updateEmailAddress,
   };

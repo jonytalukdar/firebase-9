@@ -13,7 +13,7 @@ const Login = () => {
     const enteredEmail = emailRef.current.value;
     const enteredPassword = passwordRef.current.value;
 
-    login(enteredEmail, enteredPassword);
+    await login(enteredEmail, enteredPassword);
   };
 
   return (
@@ -36,7 +36,7 @@ const Login = () => {
             </Button>
           </Form>
         </Card.Body>
-        <div className="w-100 text-center mt-1">
+        <div className="w-100 text-center mb-3">
           <Link to="/forgot">Forgot Password?</Link>
         </div>
       </Card>
