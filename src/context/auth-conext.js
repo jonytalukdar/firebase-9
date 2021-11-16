@@ -10,16 +10,17 @@ const auth = getAuth(app);
 export const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
-  const [currentUser, setCurrentUser] = useState();
+  const [currentUser, setCurrentUser] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
-  console.log(currentUser);
+  const isLogin = !!currentUser.accessToken;
 
   //signup
   const signUp = (email, password) => {
     createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
+      .then((res) => {
+        setCurrentUser(res.user);
         setError('');
       })
       .catch((error) => {
@@ -31,7 +32,8 @@ const AuthProvider = ({ children }) => {
   //login
   const login = (email, password) => {
     signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
+      .then((res) => {
+        setCurrentUser(res.user);
         setError('');
       })
       .catch((error) => {
@@ -40,18 +42,29 @@ const AuthProvider = ({ children }) => {
       });
   };
 
+  //logout
+  const logout = () => {
+    auth.signOut();
+    setCurrentUser({});
+  };
+
   useEffect(() => {
     const cleanup = auth.onAuthStateChanged((user) => {
-      setCurrentUser(user);
+      setCurrentUser((prevState) => {
+        return { ...prevState, ...user };
+      });
       setLoading(false);
     });
     return cleanup;
   }, []);
 
   const contextValue = {
+    currentUser,
     signUp,
     login,
     error,
+    logout,
+    isLogin,
   };
 
   return (
