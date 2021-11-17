@@ -1,19 +1,19 @@
 import React, { useContext, useRef } from 'react';
-import { Card, Button, Form, Alert } from 'react-bootstrap';
+import { Card, Button, Form, Alert, Spinner } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../../context/auth-conext';
 
 const Login = () => {
-  const { login, error } = useContext(AuthContext);
+  const { login, error, isLoading } = useContext(AuthContext);
   const emailRef = useRef();
   const passwordRef = useRef();
 
-  const submitHandler = async (e) => {
+  const submitHandler = (e) => {
     e.preventDefault();
     const enteredEmail = emailRef.current.value;
     const enteredPassword = passwordRef.current.value;
 
-    await login(enteredEmail, enteredPassword);
+    login(enteredEmail, enteredPassword);
   };
 
   return (
@@ -21,7 +21,10 @@ const Login = () => {
       <Card>
         <Card.Body>
           <h2 className="text-center">Log In</h2>
-          {error && <Alert variant="danger">{error}</Alert>}
+          <div className="text-center">
+            {error && <Alert variant="danger">{error}</Alert>}
+            {isLoading && <Spinner animation="grow" />}
+          </div>
           <Form onSubmit={submitHandler}>
             <Form.Group id="email">
               <Form.Label>Email</Form.Label>

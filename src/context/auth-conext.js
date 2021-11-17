@@ -44,17 +44,19 @@ const AuthProvider = ({ children }) => {
   };
 
   //login
-  const login = (email, password) => {
-    signInWithEmailAndPassword(auth, email, password)
-      .then((res) => {
-        setCurrentUser(res.user);
-        setError('');
-        navigate('/', { replace: true });
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        setError(errorCode);
-      });
+  const login = async (email, password) => {
+    setIsLoading(true);
+    try {
+      const response = await signInWithEmailAndPassword(auth, email, password);
+      const user = await response.user;
+      setCurrentUser(user);
+      setIsLoading(false);
+      setError('');
+      navigate('/', { replace: true });
+    } catch (error) {
+      setError(error.code);
+      setIsLoading(false);
+    }
   };
 
   //forgot password
