@@ -1,15 +1,16 @@
-import React, { useRef, useContext, useState } from 'react';
-import { Card, Button, Form, Alert } from 'react-bootstrap';
+import React, { useRef, useContext } from 'react';
+import { Card, Button, Form, Alert, Spinner } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../../context/auth-conext';
 
 const SignUp = () => {
-  const { signUp, error } = useContext(AuthContext);
+  const { signUp, error, isLoading } = useContext(AuthContext);
+
   const emailRef = useRef();
   const passwordRef = useRef();
   const passwordConfirmRef = useRef();
 
-  const submitHandler = async (e) => {
+  const submitHandler = (e) => {
     e.preventDefault();
     const enteredEmail = emailRef.current.value;
     const enteredPassword = passwordRef.current.value;
@@ -19,7 +20,7 @@ const SignUp = () => {
       alert('Password does not match!');
     }
 
-    await signUp(enteredEmail, enteredPassword);
+    signUp(enteredEmail, enteredPassword);
   };
 
   return (
@@ -27,7 +28,10 @@ const SignUp = () => {
       <Card>
         <Card.Body>
           <h2 className="text-center">Sign Up</h2>
-          {error && <Alert variant="danger">{error}</Alert>}
+          <div className="text-center">
+            {error && <Alert variant="danger">{error}</Alert>}
+            {isLoading && <Spinner animation="grow" />}
+          </div>
           <Form onSubmit={submitHandler}>
             <Form.Group id="email">
               <Form.Label>Email</Form.Label>

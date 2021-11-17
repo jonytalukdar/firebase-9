@@ -19,24 +19,28 @@ const AuthProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const isLogin = !!currentUser.accessToken;
 
   //signup
-  const signUp = (email, password) => {
-    setLoading(true);
-    createUserWithEmailAndPassword(auth, email, password)
-      .then((res) => {
-        setCurrentUser(res.user);
-        setError('');
-        navigate('/', { replace: true });
-        setLoading(false);
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        setError(errorCode);
-        setLoading(false);
-      });
+  const signUp = async (email, password) => {
+    setIsLoading(true);
+    try {
+      const response = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      const user = await response.user;
+      setCurrentUser(user);
+      setIsLoading(false);
+      setError('');
+      navigate('/', { replace: true });
+    } catch (error) {
+      setError(error.code);
+      setIsLoading(false);
+    }
   };
 
   //login
@@ -107,7 +111,7 @@ const AuthProvider = ({ children }) => {
   const contextValue = {
     currentUser,
     error,
-    loading,
+    isLoading,
     isLogin,
     signUp,
     login,
