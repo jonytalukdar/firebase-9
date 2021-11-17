@@ -1,16 +1,23 @@
 import React, { useRef, useContext, useState } from 'react';
-import { Card, Button, Form, Alert } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Card, Button, Form, Alert, Spinner } from 'react-bootstrap';
+import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../context/auth-conext';
 
 const UpdateProfile = () => {
-  const { updateEmailAddress, error, currentUser, updateUserPassword } =
-    useContext(AuthContext);
+  const {
+    updateEmailAddress,
+    error,
+    currentUser,
+    updateUserPassword,
+    isLoading,
+  } = useContext(AuthContext);
   const emailRef = useRef();
   const passwordRef = useRef();
   const passwordConfirmRef = useRef();
 
   const [message, setMessage] = useState('');
+
+  const navigate = useNavigate();
 
   const submitHandler = async (e) => {
     e.preventDefault();
@@ -38,6 +45,7 @@ const UpdateProfile = () => {
       })
       .finally(() => {
         setMessage('Profile Updated!');
+        navigate('/login', { replace: true });
       });
   };
 
@@ -46,8 +54,11 @@ const UpdateProfile = () => {
       <Card>
         <Card.Body>
           <h2 className="text-center">Update Profile</h2>
-          {message && <Alert variant="success">{message}</Alert>}
-          {error && <Alert variant="danger">{error}</Alert>}
+          <div className="text-center">
+            {message && <Alert variant="success">{message}</Alert>}
+            {error && <Alert variant="danger">{error}</Alert>}
+            {isLoading && <Spinner animation="grow" />}
+          </div>
           <Form onSubmit={submitHandler}>
             <Form.Group id="email">
               <Form.Label>Email</Form.Label>

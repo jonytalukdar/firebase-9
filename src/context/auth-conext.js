@@ -63,35 +63,39 @@ const AuthProvider = ({ children }) => {
   const forgotPassword = async (email) => {
     setIsLoading(true);
     try {
-      const response = await sendPasswordResetEmail(auth, email);
+      await sendPasswordResetEmail(auth, email);
       setIsLoading(false);
       setError('');
     } catch (error) {
       setError(error.code);
+      setIsLoading(false);
     }
   };
 
   //update email
   const updateEmailAddress = (email) => {
-    updateEmail(auth.currentUser, email)
-      .then(() => {
-        setError('');
-      })
-      .catch((error) => {
-        console.log(error);
-        setError(error.errorCode);
-      });
+    setIsLoading(true);
+    try {
+      updateEmail(auth.currentUser, email);
+      setIsLoading(false);
+      setError('');
+    } catch (error) {
+      setError(error.code);
+      setIsLoading(false);
+    }
   };
 
   //update password
   const updateUserPassword = (password) => {
-    updatePassword(auth.currentUser, password)
-      .then(() => {
-        setError('');
-      })
-      .catch((error) => {
-        setError(error.errorCode);
-      });
+    setIsLoading(true);
+    try {
+      updatePassword(auth.currentUser, password);
+      setIsLoading(false);
+      setError('');
+    } catch (error) {
+      setError(error.code);
+      setIsLoading(false);
+    }
   };
 
   //logout
