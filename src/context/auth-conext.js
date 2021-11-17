@@ -60,15 +60,15 @@ const AuthProvider = ({ children }) => {
   };
 
   //forgot password
-  const forgotPassword = (email) => {
-    sendPasswordResetEmail(auth, email)
-      .then((res) => {
-        setError('');
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        setError(errorCode);
-      });
+  const forgotPassword = async (email) => {
+    setIsLoading(true);
+    try {
+      const response = await sendPasswordResetEmail(auth, email);
+      setIsLoading(false);
+      setError('');
+    } catch (error) {
+      setError(error.code);
+    }
   };
 
   //update email

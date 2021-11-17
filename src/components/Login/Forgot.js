@@ -1,10 +1,10 @@
 import React, { useContext, useRef, useState } from 'react';
-import { Card, Button, Form, Alert } from 'react-bootstrap';
+import { Card, Button, Form, Alert, Spinner } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../../context/auth-conext';
 
 const Forgot = () => {
-  const { forgotPassword, error } = useContext(AuthContext);
+  const { forgotPassword, error, isLoading } = useContext(AuthContext);
 
   const emailRef = useRef();
   const [message, setMessage] = useState(null);
@@ -26,18 +26,22 @@ const Forgot = () => {
       <Card>
         <Card.Body>
           <h2 className="text-center">Reset Password</h2>
-          {error ? (
-            <Alert variant="danger">{error}</Alert>
-          ) : (
-            <Alert show={message ? true : false} variant="success">
-              {message}
-            </Alert>
-          )}
+
+          <div className="text-center">
+            {error ? (
+              <Alert variant="danger">{error}</Alert>
+            ) : (
+              <Alert show={message ? true : false} variant="success">
+                {message}
+              </Alert>
+            )}
+            {isLoading && <Spinner animation="grow" />}
+          </div>
 
           <Form onSubmit={submitHandler}>
             <Form.Group id="email">
               <Form.Label>Email</Form.Label>
-              <Form.Control className="mb-2" type="email" ref={emailRef} />
+              <Form.Control className="mb-3" type="email" ref={emailRef} />
             </Form.Group>
             <Button className="w-100" type="submit">
               Reset Password
