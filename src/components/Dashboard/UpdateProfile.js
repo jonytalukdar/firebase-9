@@ -27,6 +27,7 @@ const UpdateProfile = () => {
 
     if (enteredPassword !== enteredConfirmPassword) {
       alert('Password does not match!');
+      return;
     }
 
     const promises = [];
@@ -39,12 +40,13 @@ const UpdateProfile = () => {
     }
 
     Promise.all(promises)
-      .then(() => {})
+      .then(() => {
+        setMessage('Profile Updated!');
+      })
       .catch((error) => {
-        console.log(error);
+        console.log(error.code);
       })
       .finally(() => {
-        setMessage('Profile Updated!');
         navigate('/login', { replace: true });
       });
   };

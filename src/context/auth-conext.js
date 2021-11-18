@@ -72,31 +72,39 @@ const AuthProvider = ({ children }) => {
     }
   };
 
-  //update email
-  const updateEmailAddress = (email) => {
-    setIsLoading(true);
-    try {
-      updateEmail(auth.currentUser, email);
-      setIsLoading(false);
-      setError('');
-    } catch (error) {
-      setError(error.code);
-      setIsLoading(false);
-    }
-  };
+  // //update email
+  // const updateEmailAddress = (email) => {
+  //   setIsLoading(true);
+  //   try {
+  //     updateEmail(auth.currentUser, email);
+  //     setIsLoading(false);
+  //     setError('');
+  //   } catch (error) {
+  //     setError(error.code);
+  //     setIsLoading(false);
+  //   }
+  // };
 
-  //update password
-  const updateUserPassword = (password) => {
-    setIsLoading(true);
-    try {
-      updatePassword(auth.currentUser, password);
-      setIsLoading(false);
-      setError('');
-    } catch (error) {
-      setError(error.code);
-      setIsLoading(false);
-    }
-  };
+  // //update password
+  // const updateUserPassword = (password) => {
+  //   setIsLoading(true);
+  //   try {
+  //     updatePassword(auth.currentUser, password);
+  //     setIsLoading(false);
+  //     setError('');
+  //   } catch (error) {
+  //     setError(error.code);
+  //     setIsLoading(false);
+  //   }
+  // };
+
+  function updateEmailAddress(email) {
+    return updateEmail(auth.currentUser, email);
+  }
+
+  function updateUserPassword(password) {
+    return updatePassword(auth.currentUser, password);
+  }
 
   //logout
   const logout = () => {
