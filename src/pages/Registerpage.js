@@ -24,12 +24,12 @@ export default function Registerpage() {
 
   const [enteredEmail, setEnteredEmail] = useState('');
   const [enteredPassword, setEnteredPassword] = useState('');
-  const [isSubmiting, setSubmiting] = useState(false);
+  const [isSubmiting, setIsSubmiting] = useState(false);
 
-  const submitHandler = (e) => {
+  const submitHandler = async (e) => {
     e.preventDefault();
 
-    setSubmiting(true);
+    setIsSubmiting(true);
     signup(enteredEmail, enteredPassword)
       .then((res) => {
         toast({
@@ -47,7 +47,7 @@ export default function Registerpage() {
           isClosable: true,
         });
       })
-      .finally(() => setSubmiting(false));
+      .finally(() => setIsSubmiting(false));
   };
 
   return (
