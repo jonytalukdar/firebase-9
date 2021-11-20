@@ -15,8 +15,10 @@ import { useHistory } from 'react-router-dom';
 import { Card } from '../components/Card';
 import DividerWithText from '../components/DividerWithText';
 import { Layout } from '../components/Layout';
+import { useAuth } from '../context/auth-context';
 
 export default function Registerpage() {
+  const { signup } = useAuth();
   const history = useHistory();
   const toast = useToast();
 
@@ -24,19 +26,28 @@ export default function Registerpage() {
   const [enteredPassword, setEnteredPassword] = useState('');
   const [isSubmiting, setSubmiting] = useState(false);
 
-  const submitHandler = async (e) => {
+  const submitHandler = (e) => {
     e.preventDefault();
 
-    if (!enteredEmail.includes('@') || enteredPassword.trim().length < 7) {
-      toast({
-        description: 'Inavlid email or password! password should be at least 7',
-        status: 'error',
-        duration: '3000',
-        isClosable: true,
-      });
-    }
-
     setSubmiting(true);
+    signup(enteredEmail, enteredPassword)
+      .then((res) => {
+        toast({
+          description: 'User created successfully',
+          status: 'success',
+          duration: '4000',
+          isClosable: true,
+        });
+      })
+      .catch((error) => {
+        toast({
+          description: error.code,
+          status: 'error',
+          duration: '4000',
+          isClosable: true,
+        });
+      })
+      .finally(() => setSubmiting(false));
   };
 
   return (
