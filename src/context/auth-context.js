@@ -6,6 +6,7 @@ import {
   signOut,
   GoogleAuthProvider,
   signInWithPopup,
+  sendPasswordResetEmail,
 } from 'firebase/auth';
 import { app } from '../firebase.config';
 const auth = getAuth(app);
@@ -16,6 +17,7 @@ const AuthContext = createContext({
   login: (email, password) => {},
   logout: () => {},
   goggleSingIn: () => {},
+  forgotPassword: (email) => {},
 });
 
 export const useAuth = () => useContext(AuthContext);
@@ -40,10 +42,14 @@ const AuthProvider = ({ children }) => {
   };
 
   //signinWithGoggle
-
   const goggleSingIn = () => {
     const provider = new GoogleAuthProvider();
     return signInWithPopup(auth, provider);
+  };
+
+  //forgot password
+  const forgotPassword = (email) => {
+    return sendPasswordResetEmail(auth, email);
   };
 
   useEffect(() => {
@@ -59,6 +65,7 @@ const AuthProvider = ({ children }) => {
     login,
     logout,
     goggleSingIn,
+    forgotPassword,
   };
   return (
     <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>
