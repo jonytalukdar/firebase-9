@@ -19,9 +19,11 @@ import { Card } from '../components/Card';
 import DividerWithText from '../components/DividerWithText';
 import { Layout } from '../components/Layout';
 import { useAuth } from '../context/auth-context';
+import useMounted from '../context/useMounted';
 
 export default function Loginpage() {
-  const { login } = useAuth();
+  const { login, goggleSingIn } = useAuth();
+  const mounted = useMounted();
   const history = useHistory();
   const toast = useToast();
 
@@ -41,6 +43,7 @@ export default function Loginpage() {
           duration: '4000',
           isClosable: true,
         });
+        history.push('/profile');
       })
       .catch((error) => {
         toast({
@@ -50,7 +53,7 @@ export default function Loginpage() {
           isClosable: true,
         });
       })
-      .finally(() => setIsSubmiting(false));
+      .finally(() => mounted.current && setIsSubmiting(false));
   };
 
   return (
@@ -109,7 +112,7 @@ export default function Loginpage() {
           isFullWidth
           colorScheme="red"
           leftIcon={<FaGoogle />}
-          onClick={() => alert('sign in with google')}
+          onClick={goggleSingIn}
         >
           Sign in with Google
         </Button>
