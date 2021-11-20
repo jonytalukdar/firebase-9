@@ -1,12 +1,13 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
-import App from './App'
+import React from 'react';
+import ReactDOM from 'react-dom';
+import App from './App';
 import {
   ChakraProvider,
   ColorModeScript,
   extendTheme,
   theme,
-} from '@chakra-ui/react'
+} from '@chakra-ui/react';
+import AuthProvider from './context/auth-context';
 
 const customTheme = extendTheme({
   config: {
@@ -16,14 +17,15 @@ const customTheme = extendTheme({
   colors: {
     primary: theme.colors.pink,
   },
-})
+});
 
 ReactDOM.render(
-  <React.StrictMode>
+  <AuthProvider>
     <ChakraProvider theme={customTheme}>
       <ColorModeScript initialColorMode={customTheme.config.initialColorMode} />
       <App />
     </ChakraProvider>
-  </React.StrictMode>,
+  </AuthProvider>,
+
   document.getElementById('root')
-)
+);
