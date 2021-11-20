@@ -8,13 +8,10 @@ import {
   Input,
   Stack,
   useToast,
-  Text,
-  Box,
-  Flex,
 } from '@chakra-ui/react';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { FaGoogle } from 'react-icons/fa';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useHistory, useLocation } from 'react-router-dom';
 import { Card } from '../components/Card';
 import DividerWithText from '../components/DividerWithText';
 import { Layout } from '../components/Layout';
@@ -25,6 +22,7 @@ export default function Loginpage() {
   const { login, goggleSingIn } = useAuth();
   const mounted = useMounted();
   const history = useHistory();
+  const location = useLocation();
   const toast = useToast();
 
   const [enteredEmail, setEnteredEmail] = useState('');
@@ -43,7 +41,7 @@ export default function Loginpage() {
           duration: '4000',
           isClosable: true,
         });
-        history.push('/profile');
+        history.push(`${location.state ? location.state.from : 'profile'}`);
       })
       .catch((error) => {
         toast({
